@@ -163,10 +163,10 @@ method blockColorForOp AuthoringSpecs op {
 
 method blockColorForCategory AuthoringSpecs cat {
   defaultColor = (color 4 148 220)
-  if (isOneOf cat 'Control' 'Functions') {
+  if (isOneOf cat 'التحكم' 'Functions') {
 	if (notNil (global 'controlColor')) { return (global 'controlColor') }
 	return (color 230 168 34)
-  } ('Variables' == cat) {
+  } ('المتغيرات' == cat) {
 	if (notNil (global 'variableColor')) { return (global 'variableColor') }
 	return (color 243 118 29)
   } (isOneOf cat 'Operators' 'Math') {
@@ -181,9 +181,9 @@ method blockColorForCategory AuthoringSpecs cat {
 
 method alansBlockColorForCategory AuthoringSpecs cat {
   defaultColor = (gray 190) // 180
-  if (isOneOf cat 'Control' 'Functions') {
+  if (isOneOf cat 'التحكم' 'Functions') {
 	return (gray 200) // 190
-  } ('Variables' == cat) {
+  } ('المتغيرات' == cat) {
 	return (gray 185) // 175
   } ('Operators' == cat) {
 	return (gray 220) // 230
@@ -235,7 +235,7 @@ to fixBlockColors {
 
 method initialSpecs AuthoringSpecs {
   return (array
-	'Control'
+	'التحكم'
 	  (array ' ' 'animate'				'forever _' 'cmd')
 	  (array ' ' 'if'					'if _ _ : else if _ _ : ...' 'bool cmd bool cmd')
 	  (array ' ' 'repeat'				'repeat _ _' 'num cmd' 10)
@@ -271,7 +271,7 @@ method initialSpecs AuthoringSpecs {
 	  (array 'r' 'detect'				'detect first _ in _' 'str list' 'func')
 	  (array 'r' 'reduce'				'reduce _ over _ seed _' 'str list auto' 'twoInputFunc')
 
-	'Variables'
+	'المتغيرات'
 	  (array 'r' 'shared'			'shared _' 'menu.sharedVarMenu' 'score')
 	  (array ' ' 'setShared'		'set shared _ to _' 'menu.sharedVarMenu auto' 'score' 0)
 	  (array ' ' 'increaseShared'	'change shared _ by _' 'menu.sharedVarMenu num' 'score' 1)
@@ -283,7 +283,7 @@ method initialSpecs AuthoringSpecs {
 	  (array ' ' '='				'set _ to _' 'menu.localVarMenu auto' 'n' 0)
 	  (array ' ' '+='				'change _ by _' 'menu.localVarMenu num' 'n' 1)
 
-	'Operators'
+	'عوامل التشغيل'
 	  (array 'r' '+'				'_ + _ : + _ : ...' 'num num num' 10 2 10)
 	  (array 'r' '-'				'_ − _' 'num num' 10 2)
 	  (array 'r' '*'				'_ × _ : × _ : ...' 'num num num' 10 2 10)
@@ -340,7 +340,7 @@ method initialSpecs AuthoringSpecs {
 	  (array 'r' '>>'				'_ >> _' 'num num' 10 1)
 	  (array 'r' '>>>'				'_ >>> _' 'num num' -1 20)
 
-	'Data'
+	'البيانات'
 	  (array 'r' 'list'				'list : _ : ...' 'auto auto auto auto auto auto auto auto auto auto' 1 2 3 4 5 6 7 8 9 10)
 	  (array 'r' 'dictionary'		'dictionary')
 
@@ -381,7 +381,7 @@ method initialSpecs AuthoringSpecs {
 
 	  (array 'r' 'toList'			'to list _ ' 'data')
 
-	'Words'
+	'الكلمات'
 	  (array 'r' 'letters'			'letters _' 'str' 'Hello')
 	  (array 'r' 'words'			'words _' 'str' 'The owl and the pussycat')
 	  (array 'r' 'lines'			'lines _' 'str' 'Line 1
@@ -411,7 +411,7 @@ Line 2')
 	  (array 'r' 'string'			'character _ : ...' 'num' 65)
 	  (array 'r' 'canonicalizedWord' 'canonicalize _ ' 'str' 'Hello GP!')
 
-	'Network'
+	'الشبكة'
 	  (array 'r' 'getData'			'get cloud data user _ key _' 'str str' 'gp' 'test')
 	  (array ' ' 'putData'			'put cloud data user _ key _ data _' 'str str str' 'gp' 'test' 'hello!')
 	  (array 'r' 'httpGet'			'http host _ : path _ : port _' 'str str num' 'tinlizzie.org' '/' '80')
@@ -440,7 +440,7 @@ Line 2')
 	  (array ' ' 'cellAtPut'			'set cell _ row _ col _ to _' 'table auto auto.columnMenu auto')
 	  (array ' ' 'exportCSVToFile'		'save _ to file _ : delimiter _' 'table str str' nil nil ',')
 
-	'Motion'
+	'الحركة'
 	  (array ' ' 'self_moveInDirection'	'move _ : direction _' 'num num.directionsMenu' 10 0)
 	  (array ' ' 'self_changeRotation'	'turn by _' 'num' 15)
 	  (array ' ' 'self_setRotation'		'set direction to _' 'num.directionsMenu' 0)
@@ -456,7 +456,7 @@ Line 2')
 	  (array ' ' 'self_setDraggable'	'set grabbable _' 'bool' false)
 	  (array ' ' 'self_grab'			'grab : _' 'obj')
 
-	'Structure'
+	'البنية'
 	  (array ' ' 'self_instantiate'		'add an instance of _' 'str.classNameMenu auto' 'MyClass' 0)
 	  (array 'r' 'self_instantiate'		'new instance of _' 'str.classNameMenu auto' 'MyClass' 0)
 	  (array ' ' 'self_delete'			'delete : _' 'obj')
@@ -466,7 +466,7 @@ Line 2')
 	  (array ' ' 'self_addPart'			'add part _ : to _' 'obj obj')
 	  (array ' ' 'self_placePart'		'place part _ left inset _ top inset _' 'obj num num' nil 10 10)
 
-	'Looks'
+	'المظهر'
 	  (array ' ' 'self_setCostume'		'set costume to _' 'menu.imageMenu' 'ship')
 	  (array ' ' 'self_setTextCostume'	'set text costume _ : color _ : fontName _ fontSize _' 'auto color str num' 'Hello!' nil 'Arial Bold Italic' 120)
 	  (array ' ' 'self_show'			'show')
@@ -487,7 +487,7 @@ Line 2')
 	  (array ' ' 'self_snapshotStage'	'snapshot stage : as _' 'str' 'snapshot')
 	  (array ' ' 'self_setPinXY'		'set rotation point x _ y _' 'num num' 0 0)
 
-	'Drawing'
+	'رسم'
 	  (array ' ' 'self_createCostume'	'set width _ height _ : fill _ ' 'num num color' 100 100)
 	  (array ' ' 'self_fillWithColor'	'fill _' 'color')
 	  (array ' ' 'self_fillRect'		'fill rectangle x _ y _ w _ h _ _ : roundness _' 'num num num num color num' 10 10 50 50 nil 8)
@@ -514,7 +514,7 @@ Line 2')
 	  (array ' ' 'self_strokePath'		'stroke path _ width _ : joint style _ cap style _' 'color num num num' nil 1 0 0)
 	  (array ' ' 'self_fillPath'		'fill path _' 'color')
 
-	'Color'
+	'اللون'
 	  (array 'r' 'colorFromSwatch'		'color _' 'color')
 	  (array 'r' 'color'				'color r _ g _ b _ : alpha _' 'num num num num' 200 200 200 255)
 	  (array 'r' 'gray'					'gray _ : alpha _' 'num num' 200 255)
@@ -529,7 +529,7 @@ Line 2')
 	  (array 'r' 'brightness'			'brightness of _ ' 'color')
 	  (array 'r' 'colorHSV'				'color h _ s _ b _ : alpha _' 'num num num num' 0 1 1 255)
 
-	'Pixels'
+	'بكسل'
 	  (array ' ' 'self_createCostume'	'set width _ height _ : fill _ ' 'num num color' 100 100)
 	  (array ' ' 'self_copycostume'	'copy costume from _' 'menu.imageMenu' 'ship')
 	  (array 'r' 'self_getPixels'	'pixels : from _' 'menu.imageMenu' 'ship')
@@ -552,7 +552,7 @@ Line 2')
 	  (array 'r' 'self_getPixel'	'pixel color at x _ y _ : in _ ' 'num num image' 1 1)
 	  (array ' ' 'self_setPixel'	'set pixel color at x _ y _ to _ : in _' 'num num color image' 1 1)
 
-	'Sensing'
+	'التحسس'
 	  (array 'r' 'self_mouseX'				'mouse x')
 	  (array 'r' 'self_mouseY'				'mouse y')
 	  (array 'r' 'handIsDown'				'mouse is down')
@@ -574,7 +574,7 @@ Line 2')
 	  (array 'r' 'selectFromMenu'			'menu selection from _' 'list')
 	  (array 'r' 'self_getProperty'			'get _ : of _' 'str.propertyMenu obj' 'n')
 
-	'Pen'
+	'القلم'
 	  (array ' ' 'self_penDown'			'pen down')
 	  (array ' ' 'self_penUp'			'pen up')
 	  (array ' ' 'self_setPenColor'		'set pen color _' 'color')
@@ -583,7 +583,7 @@ Line 2')
 	  (array ' ' 'self_penFillArea'		'pen fill area at x _ y _ : with _' 'num num color' 0 0)
 	  (array ' ' 'self_clear'			'clear stamps and pen trails')
 
-	'Sound'
+	'الصوت'
 	  (array ' ' 'playSound'			'play sound _' 'menu.soundMenu' 'pop')
 	  (array ' ' 'playNote'				'play note _ : seconds _ : instrument _' 'auto num menu.instrumentMenu' 'c' 1 'piano')
 	  (array ' ' 'playABC'				'play tune _ : on _ : speed _ : transpose _' 'str menu.instrumentMenu num num' 'ceg [ceg]2' 'piano' 120 5)

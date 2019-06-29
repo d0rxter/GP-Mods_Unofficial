@@ -18,7 +18,7 @@ method setTargetObj Scripter obj {
     restoreScripts this
     saveScripts this
   }
-  if ('Variables' == (selection (contents categoriesFrame))) {
+  if ('المتغيرات' == (selection (contents categoriesFrame))) {
 	updateBlocks this
   }
 }
@@ -279,11 +279,11 @@ method updateClassName Scripter {
 }
 
 method devModeCategories Scripter {
-  return (array 'Control' 'Motion' 'Looks' 'Drawing' 'Drawing - Paths' 'Color' 'Pixels' 'Sensing' 'Pen' 'Sound' 'Music' 'Operators' 'Variables' 'Words' 'Data' 'Table' 'Structure' 'Network' 'Functions' 'Serial Port' 'File Stream' 'Debugging' 'My Blocks')
+  return (array 'Control' 'Motion' 'Looks' 'Drawing' 'Drawing - Paths' 'Color' 'Pixels' 'Sensing' 'Pen' 'Sound' 'Music' 'Operators' 'المتغيرات' 'Words' 'Data' 'Table' 'Structure' 'Network' 'Functions' 'Serial Port' 'File Stream' 'Debugging' 'My Blocks')
 }
 
 method userModeCategories Scripter {
-  return (array 'Control' 'Motion' 'Looks' 'Drawing' 'Color' 'Pixels' 'Sensing' 'Pen' 'Sound' 'Operators' 'Variables' 'Words' 'Data' 'Structure' 'Network' 'My Blocks')
+  return (array 'التحكم' 'الحركة' 'المظهر' 'رسم' 'اللون' 'بكسل' 'التحسس' 'القلم' 'الصوت' 'عوامل التشغيل' 'المتغيرات' 'الكلمات' 'البيانات' 'البنية' 'الشبكة' 'قطعي')
 }
 
 method categories Scripter {
@@ -326,7 +326,7 @@ method updateBlocks Scripter {
 
   cat = (selection (contents categoriesFrame))
   setRule (alignment blocksPane) 'multi-column'
-  if ('Variables' == cat) {
+  if ('المتغيرات' == cat) {
 	setRule (alignment blocksPane) 'none'
 	addVariableBlocks this
   } ('My Blocks' == cat) {
@@ -345,14 +345,14 @@ method updateBlocks Scripter {
 
 method addVariableBlocks Scripter {
   scale = (global 'scale')
-  nextX = ((left (morph (contents blocksFrame))) + (20 * scale))
+  nextX = ((left (morph (contents blocksFrame))) + (60 * scale))
   nextY = ((top (morph (contents blocksFrame))) + (-3 * scale))
 
-  addSectionLabel this 'Shared Variables'
-  addButton this 'Add a shared variable' (action 'createSharedVariable' this) 'A shared variable is visible to all scripts in all classes. Any script can view or change shared variables, making them useful for things like game scores.'
+  addSectionLabel this 'المتغيرات المشتركة'
+  addButton this 'إضافة متغير مشترك' (action 'createSharedVariable' this) 'المتغير المشترك مرئي لجميع البرامج النصية في كل الفئات. يمكن لأي برنامج نصي عرض المتغيرات المشتركة أو تغييرها ، مما يجعلها مفيدة لأشياء مثل نتائج لعبة. '
   sharedVars = (sharedVars this)
   if (notEmpty sharedVars) {
-	addButton this 'Delete a shared variable' (action 'deleteSharedVariable' this)
+	addButton this 'حذف متغير مشترك' (action 'deleteSharedVariable' this)
 	nextY += (8 * scale)
 	for varName sharedVars {
 	  lastY = nextY
@@ -382,10 +382,10 @@ method addVariableBlocks Scripter {
 	}
 	removeableVars = (copyWithout (toArray localVars) 'morph')
 
-	addSectionLabel this 'Instance Variables'
-	addButton this 'Add an instance variable' (action 'createInstanceVariable' this) 'An instance variable stores a value specific to that instance. Every instance has its own value for each instance variable. For example, in a racing game instances of "Car" might have different values for their "speed" instance variable.'
+	addSectionLabel this 'متغيرات الحالة'
+	addButton this 'إضافة متغير حالة' (action 'createInstanceVariable' this) 'يقوم متغير الحالة بتخزين قيمة خاصة بتلك النسخة. كل حالة لها قيمتها الخاصة لكل متغير حالة. على سبيل المثال ، في حالات لعبة السباق ، قد تحتوي قيم "السيارة" على قيم مختلفة لمتغير حالة "السرعة" الخاصة بها.'
 	if (notEmpty removeableVars) {
-	  addButton this 'Delete an instance variable' (action 'deleteInstanceVariable' this)
+	  addButton this 'حذف متغير حالة' (action 'deleteInstanceVariable' this)
 	}
 	nextY += (8 * scale)
 
@@ -645,7 +645,7 @@ method renameInstanceVariable Scripter oldName newName {
 
 method drawMorphRefLinks Scripter pen {
   if (or (isNil (owner morph)) (isHidden morph)) { return }
-  if ('Variables' != (currentCategory this)) { return }
+  if ('المتغيرات' != (currentCategory this)) { return }
   arrowColor = (gray 100)
   for m (parts (morph (contents blocksFrame))) {
 	h = (handler m)
@@ -668,7 +668,7 @@ method drawMorphRefLinks Scripter pen {
 
 method wantsDropOf Scripter aHandler {
   return (and
-	('Variables' == (currentCategory this))
+	('المتغيرات' == (currentCategory this))
 	(not (hasField aHandler 'window'))
 	(intersects (bounds (morph aHandler)) (bounds (morph blocksFrame))))
 }
@@ -860,7 +860,7 @@ method importClassFromFile Scripter fileName {
 
 method deleteClass Scripter aClass {
   if ((module aClass) === (topLevelModule)) { return }
-  if ('Variables' == (currentCategory this)) { selectCategory this 'Control' }
+  if ('المتغيرات' == (currentCategory this)) { selectCategory this 'Control' }
   className = (className aClass)
   targetObj = nil
   clearLibrary (library projectEditor)

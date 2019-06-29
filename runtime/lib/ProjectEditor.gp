@@ -73,20 +73,20 @@ method initialize ProjectEditor aProject {
   morph = (newMorph this)
   project = aProject
   viewerWidth = ((width (global 'page')) - (800 * scale))
-  viewerWidth = (max viewerWidth (235 * scale))
+  viewerWidth = (max viewerWidth (235 * scale)) //the left thingie? or the main area
   addTopBarParts this
   scripter = (initialize (new 'Scripter') this)
   addPart morph (morph scripter)
-  stage = (newStage 16 10)
+  stage = (newStage 16 10) //the bottom thing
   addPart morph (morph stage)
   library = (initialize (new 'SpriteLibrary') scripter)
   addPart morph (morph library)
   setStageMorph scripter (morph stage)
-  tabs = (tabBar (list 'Scripts' 'Images' 'Sounds' 'Notes') nil (action 'showTab' this) (transparent) 12)
+  tabs = (tabBar (list 'الملاحظات' 'الأصوات' 'الصور' 'البرامج النصية') nil (action 'showTab' this) (transparent) 12)
   setBGColors tabs (gray 240) (gray 150) (gray 100) // match tab colors to Scripter border and class pane colors
   addPart morph (morph tabs)
 
-  select tabs 'Scripts'
+  select tabs 'البرامج النصية'
   drawTopBar this
   clearProject this
   createInitialClass scripter
@@ -104,7 +104,7 @@ method addTopBarParts ProjectEditor {
   title = (newText '' 'Arial Bold' (14 * scale))
   addPart morph (morph title)
 
-  connectorLabel = (newText 'Show arrows:' 'Arial' (11 * scale))
+  connectorLabel = (newText 'عرض الأسهم:' 'Arial' (11 * scale))
   connectorToggle = (toggleButton
 	(action 'toggleConnectors' page) (action 'isShowingConnectors' page)
 	(scale * 20) (scale * 13) (scale * 5) (max 1 (scale / 2)) false)
@@ -115,21 +115,21 @@ method addTopBarParts ProjectEditor {
   addPart morph (morph stealthSlider)
 
   leftItems = (list)
-  add leftItems (textButton this 'New' 'newProject')
-  add leftItems (textButton this 'Open' 'openProjectMenu')
-  add leftItems (textButton this 'Save' 'saveProject')
+  add leftItems (textButton this 'جديد' 'newProject')
+  add leftItems (textButton this 'فتح' 'openProjectMenu')
+  add leftItems (textButton this 'حفظ' 'saveProject')
   if (not (isOneOf (platform) 'Browser' 'iOS')) {
-	add leftItems (textButton this 'Export as App' 'exportProjectAsApp')
+	add leftItems (textButton this 'تصدير كتطبيق' 'exportProjectAsApp')
 	if (canExportToWeb this) {
-	  add leftItems (textButton this 'Export to Web' 'exportProjectToWeb')
+	  add leftItems (textButton this 'تصدير إلى الويب' 'exportProjectToWeb')
 	}
   }
 
   rightItems = (list)
-  add rightItems (textButton this 'Present' 'enterPresentation')
+  add rightItems (textButton this 'عرض' 'enterPresentation')
   add rightItems space
-  add rightItems (textButton this 'Go' (action 'broadcastGo' page))
-  add rightItems (textButton this 'Stop' (action 'stopAll' page))
+  add rightItems (textButton this 'بداية' (action 'broadcastGo' page))
+  add rightItems (textButton this 'توقف' (action 'stopAll' page))
 
   rightItemsRow2 = (list)
   add rightItemsRow2 connectorLabel
@@ -165,9 +165,9 @@ method clickLabel ProjectEditor label selectorOrAction {
 // project operations
 
 method newProject ProjectEditor {
-  ok = (confirm (global 'page') nil 'Discard current project?')
+  ok = (confirm (global 'page') nil 'تجاهل المشروع الحالي؟')
   if (not ok) { return }
-  select tabs 'Scripts'
+  select tabs 'البرامج النصية'
   clearProject this
   createInitialClass scripter
 }
@@ -220,7 +220,7 @@ method openProject ProjectEditor projectData projectName {
   updateTitle this
   loadPage stage (first (pages project))
   if ((notes project) != '') {
-    select tabs 'Notes'
+    select tabs 'الملاحظات'
   } else {
 	refreshTab this
   }
@@ -373,14 +373,14 @@ method showTab ProjectEditor newTab {
 	viewer = nil
   }
   newTab = (selection tabs)
-  if ('Scripts' == newTab) {
+  if ('البرامج النصية' == newTab) {
 	newViewer = scripter
 	restoreScripts scripter
-  } ('Images' == newTab) {
+  } ('الصور' == newTab) {
 	newViewer = (newMediaViewer project newTab)
-  } ('Sounds' == newTab) {
+  } ('الأصوات' == newTab) {
 	newViewer = (newMediaViewer project newTab)
-  } ('Notes' == newTab) {
+  } ('الملاحظات' == newTab) {
 	newViewer = (newMediaViewer project newTab)
   }
   if (notNil newViewer) {
@@ -441,7 +441,7 @@ method processDroppedFiles ProjectEditor {
 method processDroppedFile ProjectEditor fName data {
 	if (endsWith fName '.wav') {
 	  addSoundToProject this data fName
-	  showTab this 'Sounds'
+	  showTab this 'الأصوات'
 	} (endsWith fName '.gpp') {
 	  ok = (confirm (global 'page') nil 'Discard current project?')
 	  if (not ok) { return }
@@ -459,7 +459,7 @@ method processDroppedFile ProjectEditor fName data {
 		developerModeChanged this // update palette
 	} else {
 	  addImageToProject this data fName
-	  showTab this 'Sounds'
+	  showTab this 'الأصوات'
 	}
 }
 
@@ -578,7 +578,7 @@ method setBlocksStealthLevel ProjectEditor level {
   } else {
 	setBlocksMode 'stealth'
   }
-  if (and (notNil scripter) ('Scripts' == (selection tabs))) { restoreScripts scripter }
+  if (and (notNil scripter) ('البرامج النصية' == (selection tabs))) { restoreScripts scripter }
 }
 
 method animateStealth ProjectEditor level {
@@ -713,7 +713,7 @@ method fixLayout ProjectEditor {
   viewerWidth = (width (morph viewer))
 }
 
-method fixTopBarLayout ProjectEditor {
+method fixTopBarLayout ProjectEditor { //the top bar is the menu stuff
   scale = (global 'scale')
   space = (5 * scale)
   centerTitle this
@@ -725,7 +725,7 @@ method fixTopBarLayout ProjectEditor {
   }
 
   x = (10 * scale)
-  for item leftItems {
+  for item (reversed rightItems) {
 	if (isNumber item) {
 	  x += item
 	} else {
@@ -736,7 +736,7 @@ method fixTopBarLayout ProjectEditor {
 	}
   }
   x = ((width morph) - (10 * scale))
-  for item (reversed rightItems) {
+  for item leftItems {
 	if (isNumber item) {
 	  x += (0 - item)
 	} else {
@@ -746,14 +746,15 @@ method fixTopBarLayout ProjectEditor {
 	  x = ((x - (width m)) - space)
 	}
   }
-  x = ((width morph) - (10 * scale))
+  x = ((width morph) - (10 * scale)) //original
+//  x = ((100 * scale)) //mel;... to put the green thing on the oTher side
   centerY += (20 * scale)
   if (devMode) {
 	items = rightItemsRow2
   } else {
 	items = (copyFromTo rightItemsRow2 1 2)
   }
-  for item (reversed items) {
+  for item items {
 	if (isNumber item) {
 	  x += (0 - item)
 	} else {
@@ -773,7 +774,9 @@ method fixTopBarLayout ProjectEditor {
 
 method fixViewerLayout ProjectEditor {
   m = (morph viewer)
-  setPosition m 0 (bottom morph)
+  //setPosition m 0 (bottom morph) //original
+  xx = (width m ) //mel.. to figure out whats the right value TODO
+  setPosition m xx (bottom morph) //mel
   maxW = (round (4096 / (global 'scale')))
   if ((width m) > maxW) {
 	setExtent m maxW (height m)
