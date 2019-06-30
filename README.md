@@ -1,77 +1,8 @@
-# GP-Mods
+# GP-Mods Right-to-Left
 
-The GP Blocks programming system in a form that is easy to fork and modify.
+This right-to-left GP mod aims to give a more natural user experience for Arabic language users. It is still a work in progress.
 
-GP is a "general purpose" blocks programming system similar to Scratch, but
-with  extended features such as the ability to work with pixel and sound data,
-process data, or build games and applications. What's more, GP can turn anything
-you build into an application.
-
-## Creating a Mod
-
-To make your own GP mod, first create a (free!) Github account if you don't already have one.
-Then click the "Fork" button in the top-right corner of this repository. That will create
-your own fork on Github. If you wish, rename your fork by clicking on the "Settings"
-tab in your fork. Finally, clone your repository on your own computer and start modding!
-
-## How GP Works
-
-GP runs on a virtual machine (VM) that includes a parser for the textual version of GP,
-an intepreter for GP code, a garbage collector to manage memory, and a set of *primitives*
-for things like graphics and sound I/O, file system access, support for language structures
-such as functions and classes, arithmetic operations, etc. (You can get a full list of
-primitives by typing 'help' to the GP command prompt.)
-
-Most of GP is actually written in GP itself. That code is stored in textual form in a set
-of .gp files stored in the runtime/lib folder. The textual form of GP maps to blocks,
-so the GP library code can be viewed (or even edited) as blocks. Eventually, we hope
-that we'll use the GP blocks editor to edit and extend the GP system itself. But when working
-with larger amounts of code or making global changes to the entire library, its often more
-practical to work with the textual form.
-
-When GP is started, it reads all of the .gp files in the runtime/lib folder. It then reads
-and executes the code in runtime/startup.gp, if that file exists. Finally, it looks for a
-function named "startup" and runs it if it exists. The startup function is usually
-defined in runtime/startup.gp.
-
-## Using GP Read-Eval-Print Loop (REPL)
-
-GP can also be run in interactive mode by typing:
-
-```
-gp-win -
-```
-
-When started in interactive mode, GP doesn't read runtime/startup.gp or run the "startup" function.
-Thus, instead of opening GP's graphical editor, you'll see a GP welcome message and command prompt:
-
-```
-Loaded 127 library files from runtime/lib
-Welcome to GP!
-gp>
-```
-
-You can run commands such as:
-
-```
-exit - quit GP
-help - print a list of primitive operations built into GP
-print (3 + 4) - print the result of an expression
-inspect (list 1 2 3) - inspect an object
-go - restart the user interface
-```
-
-## Wiki
-
-The Wiki on this repository will eventually include articles explaining how GP works,
-how it loads the entire system from "runtime/lib" when it starts, and how to make changes.
-
-## User Forum
-
-Ask questions and share what you've created with others on the "GP Mods" section of the
-GP Forum (http://gpblocks.org/forum). Unfortunately, due to a constant barrage of spammers
-creating accounts, we had to disable automatic account creation; just drop an email to
-"gpteam" at gpblocks.org.
+For the original mod, please check https://github.com/jhmaloney/GP-Mods 
 
 ## Based on GP...
 
