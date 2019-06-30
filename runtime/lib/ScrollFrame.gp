@@ -74,7 +74,7 @@ method updateSliders ScrollFrame {
 
   if ((+ hc hw) > h) {
     show (morph vSlider)
-    setPosition (morph vSlider) ((right b) - vw) (top b)
+    setPosition (morph vSlider) ((left b) - 0) (top b)
     setHeight (bounds (morph vSlider)) (- h hw)
     redraw vSlider
     if ((bottom bc) < (- (bottom b) hw)) {setBottom (morph contents) (- (bottom b) hw)}
