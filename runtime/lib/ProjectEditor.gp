@@ -773,20 +773,20 @@ method fixTopBarLayout ProjectEditor { //the top bar is the menu stuff
   }
   for item items {
     if (isNumber item) {
-      //x += (0 - item) //Y2theZ original
-      x += (0 + item) //Y2theZ we are displaying those on the left side
+      //x += (0 - item) //
+      x += (0 + item) //
     } else {
       m = (morph item)
       if (isVisible m) {
         y = (centerY - ((height m) / 2))
-        //setPosition m (x - (width m)) y //Y2theZ original
-        setPosition m x y //Y2theZ we are displaying those on the left side
+        //setPosition m (x - (width m)) y //
+        setPosition m x y //
         if (item == fpsReadout) {
-          //x = (x - (8 * space)) //Y2theZ original
-          x = (x + (8 * space)) //Y2theZ we are displaying those on the left side
+          //x = (x - (8 * space)) //
+          x = (x + (8 * space)) //
         } else {
-          //x = ((x - (width m)) - space) //Y2theZ original
-          x = ((x + (width m)) + space) //Y2theZ we are displaying those on the left side
+          //x = ((x - (width m)) - space) //
+          x = ((x + (width m)) + space) //
         }
       }
     }
@@ -794,9 +794,9 @@ method fixTopBarLayout ProjectEditor { //the top bar is the menu stuff
 }
 
 method fixViewerLayout ProjectEditor {
-  viewerM = (morph viewer) //Y2theZ Rename
-  pageM = (morph (global 'page')) //Y2theZ  reference to the whole page. To get the full width
-  newX = ((width pageM) - (width viewerM)) // Y2theZ x of the viewer = width of the page - width of the viewer
+  viewerM = (morph viewer) //Y
+  pageM = (morph (global 'page')) //To get the full width
+  newX = ((width pageM) - (width viewerM)) //  x of the viewer = width of the page - width of the viewer
   //setPosition m 0 (bottom morph) //mel original
   setPosition viewerM newX (bottom morph) //mel
   maxW = (round (4096 / (global 'scale')))
@@ -813,20 +813,20 @@ method fixViewerLayout ProjectEditor {
 method fixStageLayout ProjectEditor {
   viewerM = (morph viewer)
   pageM = (morph (global 'page'))
-  // newW = (max 1 ((width pageM) - (right viewerM))) //Y2theZ original
-  newW = (max 1 ((width pageM) - (width viewerM))) //Y2theZ Stage Width = page width - viewWidth
+  // newW = (max 1 ((width pageM) - (right viewerM))) //Y
+  newW = (max 1 ((width pageM) - (width viewerM))) // Stage Width = page width - viewWidth
   newH = (max 1 ((height pageM) - (top viewerM)))
   scaleToFit stage newW newH
-  // setPosition (morph stage) (right viewerM) (bottom morph) true //Y2theZ original
-  setPosition (morph stage) 0 (bottom morph) true //Y2theZ put at position 0
+  // setPosition (morph stage) (right viewerM) (bottom morph) true //
+  setPosition (morph stage) 0 (bottom morph) true // put at position 0
 }
 
 method fixLibraryLayout ProjectEditor {
   viewerM = (morph viewer)
   stageM = (morph stage)
   pageM = (morph (global 'page'))
-  // setPosition (morph library) (right viewerM) (bottom stageM) true //Y2theZ original
-  setPosition (morph library) 0 (bottom stageM) true //Y2theZ put at position 0
+  // setPosition (morph library) (right viewerM) (bottom stageM) true //
+  setPosition (morph library) 0 (bottom stageM) true //put at position 0
   newH = (((height pageM) - (top viewerM)) - (height stageM))
   setExtent (morph library) (width stageM) newH
 }
