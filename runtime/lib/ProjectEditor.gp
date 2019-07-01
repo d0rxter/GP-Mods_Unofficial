@@ -1,4 +1,4 @@
-defineClass ProjectEditor morph fileName project imagesFolder soundsFolder stage scripter library viewer viewerWidth tabs leftItems rightItems rightItemsRow2 stealthSlider title connectorToggle fpsReadout lastFrameTime frameCount
+ defineClass ProjectEditor morph fileName project imagesFolder soundsFolder stage scripter library viewer viewerWidth tabs leftItems rightItems rightItemsRow2 stealthSlider title connectorToggle fpsReadout lastFrameTime frameCount
 
 method project ProjectEditor { return project }
 method stage ProjectEditor { return stage }
@@ -104,7 +104,7 @@ method addTopBarParts ProjectEditor {
   title = (newText '' 'Arial Bold' (14 * scale))
   addPart morph (morph title)
 
-  connectorLabel = (newText 'عرض الأسهم' 'Arial' (11 * scale))
+  connectorLabel = (newText 'عرض الأسهم' 'Arial' (11 * scale)) 
   connectorToggle = (toggleButton
 	(action 'toggleConnectors' page) (action 'isShowingConnectors' page)
 	(scale * 20) (scale * 13) (scale * 5) (max 1 (scale / 2)) false)
@@ -131,23 +131,15 @@ method addTopBarParts ProjectEditor {
   add rightItems (textButton this 'بداية' (action 'broadcastGo' page))
   add rightItems (textButton this 'توقف' (action 'stopAll' page))
 
-  //TODO: Should rename to leftItemsow
   rightItemsRow2 = (list)
-  add rightItemsRow2 (addFPSReadout this)
-  add rightItemsRow2 space
-  add rightItemsRow2 (clickLabel this 'Text' 'slideToText')
-  add rightItemsRow2 stealthSlider
-  add rightItemsRow2 (clickLabel this 'Blocks' 'slideToBlocks')
-  add rightItemsRow2 space
-  add rightItemsRow2 connectorToggle
   add rightItemsRow2 connectorLabel
-
-
-
-
-
-
-
+  add rightItemsRow2 connectorToggle
+  add rightItemsRow2 space
+  add rightItemsRow2 (clickLabel this 'Blocks' 'slideToBlocks')
+  add rightItemsRow2 stealthSlider
+  add rightItemsRow2 (clickLabel this 'Text' 'slideToText')
+  add rightItemsRow2 space
+  add rightItemsRow2 (addFPSReadout this)
 }
 
 method textButton ProjectEditor label selectorOrAction {
@@ -649,7 +641,7 @@ method justReceivedDrop ProjectEditor aHandler {
 // developer mode
 
 method developerModeChanged ProjectEditor {
-  devModeParts = (copyFromTo rightItemsRow2 1 6)
+  devModeParts = (copyFromTo rightItemsRow2 3)
   for p devModeParts {
 	if (not (isNumber p)) {
 	  if (devMode) {
@@ -713,8 +705,8 @@ method drawTopBar ProjectEditor {
 
 method fixLayout ProjectEditor {
   if (isNil tabs) { return }
-  //setBottom (morph tabs) ((height morph) + (2 * (global 'scale'))) // moved to function
-  fixTabsLayout this // function fix the tabs
+  //setBottom (morph tabs) ((height morph) + (2 * (global 'scale'))) //  original moved to a function
+  fixTabsLayout this //  function fix the tabs
   fixTopBarLayout this
   fixViewerLayout this
   fixStageLayout this
@@ -722,12 +714,12 @@ method fixLayout ProjectEditor {
   viewerWidth = (width (morph viewer))
 }
 
-method fixTabsLayout ProjectEditor {
+method fixTabsLayout ProjectEditor { 
   pageM = (morph (global 'page'))
   tabsM = (morph tabs)
-  setPosition tabsM ((width pageM) - (width tabsM)) 0
+  setPosition tabsM ((width pageM) - (width tabsM)) 0 
   setBottom (morph tabs) ((height morph) + (2 * (global 'scale')))
-
+  
 }
 
 method fixTopBarLayout ProjectEditor { //the top bar is the menu stuff
@@ -764,29 +756,30 @@ method fixTopBarLayout ProjectEditor { //the top bar is the menu stuff
 	}
   }
   //x = ((width morph) - (10 * scale)) //mel original
-  x = (10 * scale) //
+  // x = ((100 * scale)) //mel;... to put the green thing on the oTher side
+  x = (10 * scale) //  a bit more to the left
   centerY += (20 * scale)
   if (devMode) {
 	items = rightItemsRow2
   } else {
-	items = (copyFromTo rightItemsRow2 7 8)
+	items = (copyFromTo rightItemsRow2 1 2)
   }
-  for item items {
+  for item (reversed items) {
     if (isNumber item) {
-      //x += (0 - item) //
-      x += (0 + item) //
+      //x += (0 - item) //  original
+      x += (0 + item) //  we are displaying those on the left side
     } else {
       m = (morph item)
       if (isVisible m) {
         y = (centerY - ((height m) / 2))
-        //setPosition m (x - (width m)) y //
-        setPosition m x y //
+        //setPosition m (x - (width m)) y //  original
+        setPosition m x y //  we are displaying those on the left side
         if (item == fpsReadout) {
-          //x = (x - (8 * space)) //
-          x = (x + (8 * space)) //
+          //x = (x - (8 * space)) //  original
+          x = (x + (8 * space)) //  we are displaying those on the left side
         } else {
-          //x = ((x - (width m)) - space) //
-          x = ((x + (width m)) + space) //
+          //x = ((x - (width m)) - space) //  original
+          x = ((x + (width m)) + space) //  we are displaying those on the left side
         }
       }
     }
@@ -794,9 +787,9 @@ method fixTopBarLayout ProjectEditor { //the top bar is the menu stuff
 }
 
 method fixViewerLayout ProjectEditor {
-  viewerM = (morph viewer) //Y
-  pageM = (morph (global 'page')) //To get the full width
-  newX = ((width pageM) - (width viewerM)) //  x of the viewer = width of the page - width of the viewer
+  viewerM = (morph viewer) //  Rename
+  pageM = (morph (global 'page')) //   reference to the whole page. To get the full width
+  newX = ((width pageM) - (width viewerM)) //   x of the viewer = width of the page - width of the viewer
   //setPosition m 0 (bottom morph) //mel original
   setPosition viewerM newX (bottom morph) //mel
   maxW = (round (4096 / (global 'scale')))
@@ -813,20 +806,20 @@ method fixViewerLayout ProjectEditor {
 method fixStageLayout ProjectEditor {
   viewerM = (morph viewer)
   pageM = (morph (global 'page'))
-  // newW = (max 1 ((width pageM) - (right viewerM))) //Y
-  newW = (max 1 ((width pageM) - (width viewerM))) // Stage Width = page width - viewWidth
+  // newW = (max 1 ((width pageM) - (right viewerM))) //  original
+  newW = (max 1 ((width pageM) - (width viewerM))) //  Stage Width = page width - viewWidth
   newH = (max 1 ((height pageM) - (top viewerM)))
   scaleToFit stage newW newH
-  // setPosition (morph stage) (right viewerM) (bottom morph) true //
-  setPosition (morph stage) 0 (bottom morph) true // put at position 0
+  // setPosition (morph stage) (right viewerM) (bottom morph) true //  original
+  setPosition (morph stage) 0 (bottom morph) true //  put at position 0
 }
 
 method fixLibraryLayout ProjectEditor {
   viewerM = (morph viewer)
   stageM = (morph stage)
   pageM = (morph (global 'page'))
-  // setPosition (morph library) (right viewerM) (bottom stageM) true //
-  setPosition (morph library) 0 (bottom stageM) true //put at position 0
+  // setPosition (morph library) (right viewerM) (bottom stageM) true //  original
+  setPosition (morph library) 0 (bottom stageM) true // put at position 0
   newH = (((height pageM) - (top viewerM)) - (height stageM))
   setExtent (morph library) (width stageM) newH
 }
