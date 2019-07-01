@@ -109,7 +109,7 @@ method initialize Scripter aProjectEditor {
 
   // add resizers last so they are in front
   catResizer = (resizeHandle categoriesFrame 'horizontal')
-  addPart morph (morph catResizer)
+  //addPart morph (morph catResizer) // Original Disabling Resizer
 
   blocksResizer = (resizeHandle blocksFrame 'vertical')
   addPart morph (morph blocksResizer)
@@ -130,13 +130,13 @@ method initialize Scripter aProjectEditor {
 method makeClassPane Scripter {
   scale = (global 'scale')
   space = (5 * scale)
-  labelTop = (7 * scale)
+  //labelTop = (7 * scale) //
 
   classPane = (newBox nil (gray 220) nil nil false false)
   setCorner classPane 0
 
   classReadout = (newText '---' 'Arial Bold' (14 * scale))
-  setPosition (morph classReadout) (2 * space) labelTop
+  //setPosition (morph classReadout) (2 * space) labelTop //
   addPart (morph classPane) (morph classReadout)
 
   classMenuButton = (makeMenuButton this (action 'classMenu' this))
@@ -191,7 +191,8 @@ method fixLayout Scripter {
   blocksHeight = (max (toInteger ((height (morph blocksFrame)) / (global 'scale'))) 5)
   packer = (newPanePacker (bounds morph) innerBorder outerBorder)
   packPanesH packer classPane '100%'
-  packPanesH packer categoriesFrame catWidth blocksFrame '100%'
+  //packPanesH packer categoriesFrame catWidth blocksFrame '100%' // original
+  packPanesH packer blocksFrame '100%' categoriesFrame catWidth // flip the panes
   packPanesH packer scriptsFrame '100%'
   packPanesV packer classPane 28 categoriesFrame blocksHeight scriptsFrame '100%'
   packPanesV packer classPane 28 blocksFrame blocksHeight
@@ -204,18 +205,23 @@ method fixLayout Scripter {
 method fixClassPaneLayout Scripter {
   scale = (global 'scale')
 
+  m = (morph classReadout) // adjusting the position of the class readout to be on the right
+  y = ((top (morph classPane)) + ((7 * scale)))
+  x = ((right (morph classPane)) - ((width m) + (5 * scale)))
+  setPosition (morph classReadout) x y
+
   m = (morph newInstanceButton)
   x = ((right (morph classPane)) - ((width m) + (10 * scale)))
   y = ((top (morph classPane)) + ((((height (morph classPane))) - (height m)) / 2))
   setPosition m x y
 
   m = (morph classMenuButton)
-  x = ((right (morph classReadout)) + (3 * scale))
+  x = ((right (morph classReadout)) + (3 * scale)) // adjusting the position of the search to be on the right
   y = ((top (morph classReadout)) + (1 * scale))
   setPosition m x y
 
   m = (morph searchBox)
-  x = ((right (morph classPane)) - ((width m) + (5 * scale)))
+  x = ((2 * scale) + (left (morph classPane)))
   y = ((top (morph classPane)) + ((((height (morph classPane))) - (height m)) / 2))
   setPosition m x y
 }
@@ -242,7 +248,7 @@ method fixResizerLayout Scripter {
   setTop (morph resizer) (top morph)
   setExtent (morph resizer) size (height morph)
   drawPaneResizingCostumes resizer
-  addPart morph (morph resizer) // bring to front
+  //addPart morph (morph resizer) // bring to front // Original Disabling Resizer
 }
 
 // animation
