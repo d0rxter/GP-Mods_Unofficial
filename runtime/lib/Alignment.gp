@@ -137,19 +137,25 @@ method arrangeMultiLine Alignment {
   if (and (notNil (owner morph)) (isClass (handler (owner morph)) 'ScrollFrame')) {
     maxRight = (right (clientArea (handler (owner morph))))
   }
-  x = ((left morph) + framePaddingX)
+  //x = ((left morph) + framePaddingX) // Original
+  x = (maxRight - framePaddingX) //start from the Right
   y = ((top morph) + framePaddingY)
   h = 0
   for item (items this) {
     area = (call itemAreaSelector item)
-    newRight = (+ x (width area))
-    if (newRight > maxRight) {
+    //newRight = (+ x (width area)) // Original
+    newLeft = (x - (width area)) // check if we're out of bound
+    //if (newRight > maxRight) { // Original
+    if (newLeft < 0) { // we're outside the left bound
       y += (h + vPadding)
       h = 0
-      x = ((left morph) + framePaddingX)
+      // x = ((left morph) + framePaddingX) // Original
+      x = (maxRight - framePaddingX)
     }
-    setPosition item x y
-    x += ((width area) + padding)
+    //setPosition item x y // Original
+    setPosition item (x - (width area)) y //
+    //x += ((width area) + padding) //  Original
+    x = (x - ((width area) - padding)) //  substract instead
     h = (max h (height area))
   }
   ia = (itemsArea this)
@@ -159,6 +165,7 @@ method arrangeMultiLine Alignment {
   }
 }
 
+// TODO here is where we need to right align lists
 method arrangeSingleColumn Alignment {
   x = ((left morph) + framePaddingX)
   y = ((top morph) + framePaddingY)
