@@ -1,6 +1,6 @@
 // a container displaying a list of user-edited classes and a list of instances for the selected class
 
-defineClass SpriteLibrary morph scripter newClassButton newInstanceButton clearButton classes classesFrame instances instancesFrame lastClasses instanceLabelWidth
+defineClass SpriteLibrary morph scripter newClassButton newInstanceButton clearButton classes classesFrame instances instancesFrame lastClasses instanceLabelWidth instanceLabelX // added instanceLabelX as global variable
 
 method initialize SpriteLibrary aScripter {
   scripter = aScripter
@@ -36,17 +36,26 @@ method redraw SpriteLibrary {
   bnds = (bounds morph)
   bm = (newBitmap (max 1 (width bnds)) (max 1 (height bnds)) (gray 150))
   fillRect bm (gray 220) 0 border ((width bnds) - border) (titleBarH - border)
-  fillRect bm (gray 150) (100 * scale) border border (titleBarH - border)
+  //fillRect bm (gray 150) (100 * scale) border border (titleBarH - border) // original
+  fillRect bm (gray 150) (max 0 (((width morph) - (width (morph classesFrame))) - (2 * border))) border border (titleBarH - border) // move the small separator ot the right
+
+  
   setFont 'Arial Bold' fontSize
-  drawString bm 'Classes'  (gray 50) (points 4) (points 4)
+  //drawString bm 'Classes'  (gray 50) (points 4) (points 4) // Original
+  classesLabel = 'Classes' // the classes string
+  classesLabelWidth = (stringWidth classesLabel) // get the width of the label
+  drawString bm 'Classes'  (gray 50) (((width morph) - classesLabelWidth) - (4 * scale)) (points 4) // move to the Right
   instancesLabel = 'Instances'
   targetObj = (targetObj scripter)
   if (notNil targetObj) {
 	targetClass = (classOf targetObj)
 	instancesLabel = (join 'Instances of ' (className targetClass))
   }
-  drawString bm instancesLabel (gray 50) (points 108) (points 4)
+  //drawString bm instancesLabel (gray 50) (points 108) (points 4)  // Original
   instanceLabelWidth = (stringWidth instancesLabel)
+  instanceLabelX = (((((width morph) - instanceLabelWidth) - (width (morph classesFrame))) - border) - (4 * scale)) // the position to make it right aligned
+  drawString bm instancesLabel (gray 50) instanceLabelX (points 4) // move to the right
+  
   setCostume morph bm
   fixLayout this
 }
@@ -55,13 +64,23 @@ method fixLayout SpriteLibrary {
   scale = (global 'scale')
   border = (scale * 2)
   titleBarH = (24 * scale)
-  setPosition (morph classesFrame) (left morph) (+ (top morph) titleBarH border)
+  //setPosition (morph classesFrame) (left morph) (+ (top morph) titleBarH border) // Original
+  setPosition (morph classesFrame) (+ border (right (morph instancesFrame))) (+ (top morph) titleBarH border) // the frame of the classes
   setExtent (morph classesFrame) (scale * 100) (max 0 ((height morph) - (titleBarH + (2 * border))))
-  setPosition (morph instancesFrame) (+ border (right (morph classesFrame))) (+ (top morph) titleBarH border)
+  //setPosition (morph instancesFrame) (+ border (right (morph classesFrame))) (+ (top morph) titleBarH border) // Original
+  setPosition (morph instancesFrame) (left morph) (+ (top morph) titleBarH border) // the frame of the instances
   setExtent (morph instancesFrame) (max 0 (((width morph) - (width (morph classesFrame))) - (2 * border))) (max 0 (height (morph classesFrame)))
-  setInsetInOwner (morph newClassButton) (81 * scale) (5 * scale)
-  setInsetInOwner (morph newInstanceButton) (+ (width (morph classesFrame)) instanceLabelWidth (25 * scale)) (5 * scale)
-  setInsetInOwner (morph clearButton) ((width morph) - ((width (morph clearButton)) + (10 * scale))) (7 * scale)
+  //setInsetInOwner (morph newClassButton) (81 * scale) (5 * scale) // Original
+  setInsetInOwner (morph newClassButton) (max 0 (((width morph) - (width (morph classesFrame))))) (5 * scale) // move to the right
+  //setInsetInOwner (morph newInstanceButton) (+ (width (morph classesFrame)) instanceLabelWidth (25 * scale)) (5 * scale) // Original
+  newInstanceButtonX = ((instanceLabelX - (width (morph newInstanceButton))) - (4 * scale)) // Right align it to the instance label
+  setInsetInOwner (morph newInstanceButton) newInstanceButtonX (5 * scale) // make right aligned to the label
+  //setInsetInOwner (morph clearButton) ((width morph) - ((width (morph clearButton)) + (10 * scale))) (7 * scale) // Original
+  setInsetInOwner (morph clearButton) (10 * scale) (7 * scale) // move to the left
+}
+
+
+  
 }
 
 method clearLibrary SpriteLibrary {
