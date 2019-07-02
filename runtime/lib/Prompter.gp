@@ -37,10 +37,11 @@ method initialize Prompter label default editRule anAction {
 method initializeForConfirm Prompter label question yesLabel noLabel anAction {
   answer = false
   isDone = false
-  if (isNil label) {label = 'Confirm'}
+  if (isNil label) {label = 'تأكيد'}
   if (isNil question) {question = ''}
-  if (isNil yesLabel) {yesLabel = 'Yes'}
-  if (isNil noLabel) {noLabel = 'No'}
+  if (isNil noLabel) {noLabel = 'لا'}
+  if (isNil yesLabel) {yesLabel = 'نعم'}
+
   callback = anAction // optional
 
   window = (window label)

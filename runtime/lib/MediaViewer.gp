@@ -13,14 +13,14 @@ method initialize MediaViewer aProject viewerType {
   project = aProject
   type = viewerType
   morph = (newMorph this)
-  if ('Images' == viewerType) {
+  if ('الصور' == viewerType) {
 	addImportButton this 'image'
 	addPaintButton this
 	addMediaList this (images project)
-  } ('Sounds' == viewerType) {
+  } ('الأصوات' == viewerType) {
 	addImportButton this 'sound'
 	addMediaList this (sounds project)
-  } ('Notes' == viewerType) {
+  } ('الملاحظات' == viewerType) {
 	addNotes this
   }
   setMinExtent morph (scale * 235) (scale * 200)

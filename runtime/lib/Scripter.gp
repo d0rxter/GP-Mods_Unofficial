@@ -744,7 +744,7 @@ method viewClassNamed Scripter className {
 }
 
 method createClass Scripter isHelperClass {
-  newClassName = (prompt (global 'page') 'Class name?' 'MyClass')
+  newClassName = (prompt (global 'page') 'Class name?' 'صنفي')
   if (or (isNil newClassName) (newClassName == '')) { return }
   cl = (makeNewClass this newClassName isHelperClass)
   removeAllParts (morph (contents scriptsFrame))
@@ -752,7 +752,7 @@ method createClass Scripter isHelperClass {
 }
 
 method createInitialClass Scripter {
-  cl = (makeNewClass this 'MyClass')
+  cl = (makeNewClass this 'صنفي')
   removeAllParts (morph (contents scriptsFrame))
   targetObj = (instantiate cl (stageMorph this))
   restoreScripts this

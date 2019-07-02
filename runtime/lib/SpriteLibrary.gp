@@ -14,7 +14,7 @@ method initialize SpriteLibrary aScripter {
   setTransparentTouch morph true
   newClassButton = (makeNewThingButton this 'createClass' 'Make a new class')
   newInstanceButton = (makeNewThingButton this 'addInstance' 'Make a new instance of this class')
-  clearButton = (pushButton 'Clear' (gray 120) (action 'clearInstances' this))
+  clearButton = (pushButton 'مسح' (gray 120) (action 'clearInstances' this))
   setHint clearButton 'Remove all instances of this class except the selected one'
 
   addPart morph (morph classesFrame)
@@ -39,23 +39,23 @@ method redraw SpriteLibrary {
   //fillRect bm (gray 150) (100 * scale) border border (titleBarH - border) // original
   fillRect bm (gray 150) (max 0 (((width morph) - (width (morph classesFrame))) - (2 * border))) border border (titleBarH - border) // move the small separator ot the right
 
-  
+
   setFont 'Arial Bold' fontSize
-  //drawString bm 'Classes'  (gray 50) (points 4) (points 4) // Original
-  classesLabel = 'Classes' // the classes string
+  //drawString bm 'الأصناف'  (gray 50) (points 4) (points 4) // Original
+  classesLabel = 'الأصناف' // the classes string
   classesLabelWidth = (stringWidth classesLabel) // get the width of the label
-  drawString bm 'Classes'  (gray 50) (((width morph) - classesLabelWidth) - (4 * scale)) (points 4) // move to the Right
+  drawString bm 'الأصناف'  (gray 50) (((width morph) - classesLabelWidth) - (4 * scale)) (points 4) // move to the Right
   instancesLabel = 'Instances'
   targetObj = (targetObj scripter)
   if (notNil targetObj) {
 	targetClass = (classOf targetObj)
-	instancesLabel = (join 'Instances of ' (className targetClass))
+	instancesLabel = (join ' كائنة من ' (className targetClass))
   }
   //drawString bm instancesLabel (gray 50) (points 108) (points 4)  // Original
   instanceLabelWidth = (stringWidth instancesLabel)
   instanceLabelX = (((((width morph) - instanceLabelWidth) - (width (morph classesFrame))) - border) - (4 * scale)) // the position to make it right aligned
   drawString bm instancesLabel (gray 50) instanceLabelX (points 4) // move to the right
-  
+
   setCostume morph bm
   fixLayout this
 }
@@ -80,7 +80,7 @@ method fixLayout SpriteLibrary {
 }
 
 
-  
+
 }
 
 method clearLibrary SpriteLibrary {
